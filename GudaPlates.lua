@@ -303,6 +303,8 @@ local fontOptions = {
     {value = "Interface\\AddOns\\GudaPlates\\fonts\\Myriad-Pro.ttf", text = "Myriad Pro"},
     {value = "Interface\\AddOns\\GudaPlates\\fonts\\PT-Sans-Narrow-Bold.ttf", text = "PT Sans Narrow Bold"},
     {value = "Interface\\AddOns\\GudaPlates\\fonts\\PT-Sans-Narrow-Regular.ttf", text = "PT Sans Narrow"},
+	{value = "Interface\\AddOns\\GudaPlates\\fonts\\WarSansTT-Bliz-500.ttf", text = "War Sans (CJK)"},
+
 }
 GudaPlates.fontOptions = fontOptions  -- Expose for Options module
 
