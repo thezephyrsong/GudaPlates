@@ -116,6 +116,9 @@ local CreateFrame = CreateFrame
 -- SuperWoW API (may not exist)
 local UnitGUID = UnitGUID
 
+-- External Addon Dependencies
+local WT_API, WT_Glossary
+
 -- ============================================
 
 -- Performance: Throttle intervals
@@ -1556,6 +1559,21 @@ local function UpdateNamePlate(frame)
             local name = ""
             if original.name and original.name.GetText then
                 name = original.name:GetText() or ""
+	   -- ============================================
+            -- WOW-TRANSLATE INTERCEPT (HEALTH FORMATS)
+            -- ============================================
+            if name ~= "" then
+                -- Dynamically catch the global reference once it exists in memory
+                if not WT_API and WoWTranslateAPI then WT_API = WoWTranslateAPI end
+                if not WT_Glossary and WoWTranslate_Glossary then WT_Glossary = WoWTranslate_Glossary end
+
+                if WT_API and WT_API.GetTranslation then
+                    name = WT_API:GetTranslation(name) or name
+                elseif WT_Glossary and WT_Glossary[name] then
+                    name = WT_Glossary[name]
+                end
+            end
+            -- ============================================
             end
 
             if format == 1 then
@@ -2051,6 +2069,20 @@ local function UpdateNamePlate(frame)
     if original.name and original.name.GetText then
         local name = original.name:GetText()
         if name then
+	    -- ============================================
+            -- WOW-TRANSLATE INTERCEPT (STANDALONE NAME)
+            -- ============================================
+            -- Dynamically catch the global reference once it exists in memory
+            if not WT_API and WoWTranslateAPI then WT_API = WoWTranslateAPI end
+            if not WT_Glossary and WoWTranslate_Glossary then WT_Glossary = WoWTranslate_Glossary end
+
+            if WT_API and WT_API.GetTranslation then
+                name = WT_API:GetTranslation(name) or name
+            elseif WT_Glossary and WT_Glossary[name] then
+                name = WT_Glossary[name]
+            end
+            -- ============================================
+
             nameplate.name:SetText(name)
             local nColor = Settings.nameColor or {1, 1, 1, 1}
             nameplate.name:SetTextColor(nColor[1], nColor[2], nColor[3], nColor[4])

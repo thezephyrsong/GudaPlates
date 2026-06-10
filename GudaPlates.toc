@@ -4,6 +4,7 @@
 ## Author: Vati - Capyed by Zae
 ## Version: 1.3.6
 ## SavedVariables: GudaPlatesDB
+## OptionalDeps: ShaguTweaks, WoWTranslate
 
 GudaPlates_Locale.lua
 GudaPlates_Settings.lua
