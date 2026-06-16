@@ -1771,7 +1771,10 @@ local function UpdateNamePlate(frame)
     -- Update name from original
     if original.name and original.name.GetText then
         local name = original.name:GetText()
-        if name then
+        -- FIX: Only run if the name has actually changed since the last frame tick
+        if name and name ~= nameplate.lastNameText then
+            nameplate.lastNameText = name -- Lock the current raw name into cache
+
             -- ============================================
             -- WOW-TRANSLATE INTERCEPT (STANDALONE NAME)
             -- ============================================
