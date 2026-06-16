@@ -1561,16 +1561,22 @@ local function UpdateNamePlate(frame)
                 name = original.name:GetText() or ""
 	   -- ============================================
             -- WOW-TRANSLATE INTERCEPT (HEALTH FORMATS)
+            -- Re-ordered layout flow to print English first, then bracketed CJK
             -- ============================================
             if name ~= "" then
                 -- Dynamically catch the global reference once it exists in memory
                 if not WT_API and WoWTranslateAPI then WT_API = WoWTranslateAPI end
                 if not WT_Glossary and WoWTranslate_Glossary then WT_Glossary = WoWTranslate_Glossary end
 
+                local trans = nil
                 if WT_API and WT_API.GetTranslation then
-                    name = WT_API:GetTranslation(name) or name
+                    trans = WT_API:GetTranslation(name)
                 elseif WT_Glossary and WT_Glossary[name] then
-                    name = WT_Glossary[name]
+                    trans = WT_Glossary[name]
+                end
+
+                if trans and trans ~= "" and trans ~= name then
+                    name = trans .. " [" .. name .. "]"
                 end
             end
             -- ============================================
@@ -2071,15 +2077,21 @@ local function UpdateNamePlate(frame)
         if name then
 	    -- ============================================
             -- WOW-TRANSLATE INTERCEPT (STANDALONE NAME)
+            -- Re-ordered layout flow to print English first, then bracketed CJK
             -- ============================================
             -- Dynamically catch the global reference once it exists in memory
             if not WT_API and WoWTranslateAPI then WT_API = WoWTranslateAPI end
             if not WT_Glossary and WoWTranslate_Glossary then WT_Glossary = WoWTranslate_Glossary end
 
+            local trans = nil
             if WT_API and WT_API.GetTranslation then
-                name = WT_API:GetTranslation(name) or name
+                trans = WT_API:GetTranslation(name)
             elseif WT_Glossary and WT_Glossary[name] then
-                name = WT_Glossary[name]
+                trans = WT_Glossary[name]
+            end
+
+            if trans and trans ~= "" and trans ~= name then
+                name = trans .. " [" .. name .. "]"
             end
             -- ============================================
 
@@ -2252,7 +2264,7 @@ local function UpdateNamePlate(frame)
         end
     end
 
-    -- Update Cast Bar
+    -- Update Update Cast Bar
     local casting = nil
     local now = GetTime()
 
